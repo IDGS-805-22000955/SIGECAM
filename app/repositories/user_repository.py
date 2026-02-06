@@ -4,7 +4,7 @@ from app.models.user import User
 
 class UserRepository:
 
-    # Busca el usuario por el correo
+    # BUSCA EL USUARIO POR ELE CORREO
     @staticmethod
     def get_by_email(email):
         conn = get_db()
@@ -19,7 +19,7 @@ class UserRepository:
         finally:
             cursor.close()
 
-    # Crear un nuevo usuario y persona a la par
+    # CREA UN NUEVO USUARIO Y PERSONA A LA PAR
     @staticmethod
     def create(cursor, email, password_hash, persona_id):
 
@@ -29,13 +29,12 @@ class UserRepository:
                 """
         cursor.execute(query, (email, password_hash, persona_id))
 
-    # Get all usuarios
+    # GET ALL USUARIOS
     @staticmethod
     def get_all_with_persona():
         conn = get_db()
         cursor = conn.cursor(dictionary=True)
 
-        # AGREGAMOS p.foto_path AL SELECT
         query = """
                 SELECT u.id, \
                        u.email, \
@@ -45,7 +44,7 @@ class UserRepository:
                        p.apellido_paterno, \
                        p.apellido_materno, \
                        p.telefono, \
-                       p.foto_path -- <--- ¡ESTE CAMPO FALTABA!
+                       p.foto_path 
                 FROM users u
                          INNER JOIN persona p ON u.persona_id = p.id
                 ORDER BY u.created_at DESC \
@@ -56,9 +55,9 @@ class UserRepository:
         finally:
             cursor.close()
 
+    # GET ALL USUARIOS POR EL ID
     @staticmethod
     def get_full_user_by_id(user_id):
-        """Trae todos los datos (User + Persona) para editar"""
         conn = get_db()
         cursor = conn.cursor(dictionary=True)
         query = """
@@ -84,9 +83,10 @@ class UserRepository:
         finally:
             cursor.close()
 
+
+    # ACTUALIZAR CREDENCIALES
     @staticmethod
     def update_credentials(cursor, user_id, email, role, password_hash=None):
-        """Actualiza tabla users. Si password_hash es None, no se toca."""
         if password_hash:
             query = "UPDATE users SET email=%s, role=%s, password=%s WHERE id=%s"
             cursor.execute(query, (email, role, password_hash, user_id))
@@ -94,21 +94,18 @@ class UserRepository:
             query = "UPDATE users SET email=%s, role=%s WHERE id=%s"
             cursor.execute(query, (email, role, user_id))
 
+
+    # ELIMINAR USUARIO
     @staticmethod
     def delete(user_id):
-        """Elimina el usuario. ON DELETE CASCADE en la BD debería borrar la persona,
-           pero haremos una eliminación manual de Persona para ser limpios."""
         conn = get_db()
         cursor = conn.cursor(dictionary=True)
         try:
-            # Primero obtenemos el persona_id
             cursor.execute("SELECT persona_id FROM users WHERE id = %s", (user_id,))
             res = cursor.fetchone()
 
             if res:
                 persona_id = res['persona_id']
-                # Borrar Persona (El trigger de la BD borrará el usuario automáticamente si está bien configurado,
-                # pero si borramos la PERSONA, limpiamos la raíz).
                 cursor.execute("DELETE FROM persona WHERE id = %s", (persona_id,))
                 conn.commit()
                 return True

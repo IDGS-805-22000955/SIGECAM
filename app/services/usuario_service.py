@@ -49,7 +49,7 @@ class UsuarioService:
     def update_user(user_id, data):
         conn = get_db()
         try:
-            conn.commit()  # Limpieza preventiva
+            conn.commit()
         except:
             pass
 
@@ -57,14 +57,10 @@ class UsuarioService:
         cursor = conn.cursor()
 
         try:
-            # 1. Obtener datos actuales para saber el persona_id
             current = UserRepository.get_full_user_by_id(user_id)
             if not current:
                 return {"success": False, "message": "Usuario no encontrado"}
 
-            # 2. Actualizar Persona (Nombre, Foto, Dirección, etc)
-            # Reusamos update de PersonaRepository si existe, o hacemos query directa aquí
-            # Para simplificar y usar SQL puro directo:
             query_persona = """
                             UPDATE persona \
                             SET nombre=%(nombre)s, \
@@ -84,16 +80,16 @@ class UsuarioService:
             }
             cursor.execute(query_persona, params_p)
 
-            # 3. Actualizar Foto (Solo si se subió una nueva)
+
             if data.get('foto'):
                 cursor.execute("UPDATE persona SET foto_path=%s WHERE id=%s", (data['foto'], current['persona_id']))
 
-            # 4. Actualizar Usuario (Email, Rol, Password)
+
             email = data['email']
-            role = data.get('role', 'user')  # Por defecto user si no viene
+            role = data.get('role', 'user')
 
             password_hash = None
-            if data.get('password'):  # Solo si el usuario escribió algo en el campo password
+            if data.get('password'):
                 password_hash = bcrypt.generate_password_hash(data['password']).decode('utf-8')
 
             UserRepository.update_credentials(cursor, user_id, email, role, password_hash)

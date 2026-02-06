@@ -4,7 +4,7 @@ from app.models.persona import Persona
 
 class PersonaRepository:
 
-    # Nuevo usuario
+    # NUEVO USUARIO
     @staticmethod
     def create(cursor, data):
         query = """
@@ -18,14 +18,13 @@ class PersonaRepository:
                         %(municipio)s, %(estado)s, %(codigo_postal)s, %(foto_path)s, 'México')
                 """
 
-        # Mapeo de nuevo usuario
+        # MAPEO DE NUEVO USUARIO
         params = {
             'nombre': data.get('nombre'),
             'apellido_paterno': data.get('apellido_paterno'),
             'apellido_materno': data.get('apellido_materno'),
             'curp': data.get('curp'),
             'rfc': data.get('rfc'),
-            # Manejo de fechas vacías: si viene vacío, enviamos None
             'fecha_nacimiento': data.get('fecha_nacimiento') if data.get('fecha_nacimiento') else None,
             'genero': data.get('genero'),
             'telefono': data.get('telefono'),
@@ -38,17 +37,13 @@ class PersonaRepository:
             'municipio': data.get('municipio'),
             'estado': data.get('estado'),
             'codigo_postal': data.get('codigo_postal'),
-
-            # --- CORRECCIÓN AQUÍ ---
-            # La llave debe ser 'foto_path' (como en el SQL),
-            # pero el valor viene de data.get('foto') (como en la ruta)
             'foto_path': data.get('foto')
         }
 
         cursor.execute(query, params)
         return cursor.lastrowid
 
-    # Get all usuarios
+    # GET ALL USUARIOS
     @staticmethod
     def get_all():
         conn = get_db()
@@ -58,7 +53,7 @@ class PersonaRepository:
         cursor.close()
         return [Persona(**row) for row in result]
 
-    # Get usuario específico
+    # GET USUARIO ESPECIFICO
     @staticmethod
     def get_by_id(id):
         conn = get_db()
@@ -70,7 +65,7 @@ class PersonaRepository:
             return Persona(**row)
         return None
 
-    # Actualizar usuario
+    # ACTUALIZAR USUARIO
     @staticmethod
     def update(id, data):
         conn = get_db()
@@ -90,7 +85,7 @@ class PersonaRepository:
                     WHERE id = %(id)s \
                     """
 
-            # Mapeo de nuevo usuario(actualizado)
+            # MAPEO DE USUARIO PARA ACTUALIZAR
             params = {
                 'nombre': data.get('nombre', current_data['nombre']),
                 'apellido_paterno': data.get('apellido_paterno', current_data['apellido_paterno']),
@@ -108,7 +103,7 @@ class PersonaRepository:
         finally:
             cursor.close()
 
-    # Borrar usuario
+    # ELIMINAR USUARIO
     @staticmethod
     def delete(id):
         conn = get_db()

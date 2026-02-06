@@ -3,10 +3,9 @@ from app.extensions import get_db
 
 class MateriaPrimaRepository:
 
-    # ... (el método get_all se queda igual) ...
+
     @staticmethod
     def get_all():
-        """Obtiene inventario y concatena proveedores si hay varios"""
         conn = get_db()
         cursor = conn.cursor(dictionary=True)
         query = """
@@ -32,24 +31,16 @@ class MateriaPrimaRepository:
 
     @staticmethod
     def create(data, foto_filename):
-        """
-        Crea material y su relación con el proveedor en una transacción.
-        """
         conn = get_db()
-
-        # --- FIX: Limpiar estado previo de la conexión ---
         try:
             conn.commit()
         except Exception:
             pass
-        # -------------------------------------------------
 
-        # Ahora sí, iniciamos la transacción limpia
         conn.start_transaction()
         cursor = conn.cursor()
 
         try:
-            # 1. Insertar en materias_primas
             query_mp = """
                        INSERT INTO materias_primas (codigo_interno, nombre, descripcion, cantidad_stock, \
                                                     unidad_medida, costo_unitario, lote, fecha_caducidad, \
@@ -74,7 +65,6 @@ class MateriaPrimaRepository:
             cursor.execute(query_mp, params_mp)
             new_mp_id = cursor.lastrowid
 
-            # 2. Insertar relación en proveedor_materia_prima
             proveedor_id = data.get('proveedor_id')
             if proveedor_id:
                 query_rel = """

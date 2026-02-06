@@ -5,10 +5,8 @@ class ProductoRepository:
 
     @staticmethod
     def get_all():
-        """Obtiene todos los productos terminados"""
         conn = get_db()
         cursor = conn.cursor(dictionary=True)
-        # Ordenamos por los más recientes primero
         query = "SELECT * FROM productos_terminados ORDER BY created_at DESC"
         try:
             cursor.execute(query)

@@ -3,7 +3,7 @@ from app.extensions import get_db
 
 class TokenRepository:
 
-    # Agrega el token a la lista negra
+    # AÑADIR EL TOKEN A LA LISTA NEGRA
     @staticmethod
     def add_to_blacklist(token, user_id):
         conn = get_db()
@@ -22,7 +22,7 @@ class TokenRepository:
             cursor.close()
 
 
-    # Valida que el token no esté en la lista negra
+    # VALIDACIÓN DEL TOKEN
     @staticmethod
     def is_blacklisted(token):
         conn = get_db()

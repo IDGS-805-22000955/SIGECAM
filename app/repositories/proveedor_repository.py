@@ -4,7 +4,7 @@ from app.extensions import get_db
 class ProveedorRepository:
 
 
-    # Get all proveedores
+    # GET ALL PROVEEDORES
     @staticmethod
     def get_all():
 
@@ -30,7 +30,7 @@ class ProveedorRepository:
             cursor.close()
 
 
-    # Nuevo proveedor
+    # NUEVO PROVEEDOR
     @staticmethod
     def create(cursor, persona_id, nombre_empresa):
 
