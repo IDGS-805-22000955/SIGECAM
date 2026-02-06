@@ -1,0 +1,33 @@
+{% extends "user/layout_user.html" %}
+
+{% block title %}Inicio{% endblock %}
+{% block header_title %}Bienvenido, {{ user.nombre }}{% endblock %}
+
+{% block content %}
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-info">
+                <h5>Mis Tareas</h5>
+                <h2>0</h2>
+            </div>
+            <div class="stat-icon icon-blue">
+                <i class="bi bi-list-task"></i>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-info">
+                <h5>Notificaciones</h5>
+                <h2>0</h2>
+            </div>
+            <div class="stat-icon icon-orange">
+                <i class="bi bi-bell"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <h3>Área de Trabajo</h3>
+        <p class="text-muted">Selecciona una opción del menú lateral para comenzar.</p>
+    </div>
+{% endblock %}

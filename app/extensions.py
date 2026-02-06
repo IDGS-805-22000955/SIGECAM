@@ -1,0 +1,15 @@
+from flask_bcrypt import Bcrypt
+import mysql.connector
+from flask import current_app, g
+
+bcrypt = Bcrypt()
+
+def get_db():
+    if 'db' not in g:
+        g.db = mysql.connector.connect(**current_app.config['DB_CONFIG'])
+    return g.db
+
+def close_db(e=None):
+    db = g.pop('db', None)
+    if db is not None:
+        db.close()

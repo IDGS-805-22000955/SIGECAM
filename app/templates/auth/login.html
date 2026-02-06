@@ -1,0 +1,27 @@
+{% extends "auth/layout_auth.html" %}
+
+{% block title %}SIGECAM - Acceso{% endblock %}
+
+{% block content %}
+    <form id="loginForm">
+        <div class="mb-3 text-start" style="color: black">
+            <label for="email" class="form-label fw-bold text-secondary">Usuario</label>
+            <input type="email" class="form-control" id="email" required placeholder="nombre@correo.com">
+        </div>
+        <div class="mb-4 text-start">
+            <label for="password" class="form-label fw-bold text-secondary">Contraseña</label>
+            <input type="password" class="form-control" id="password" required placeholder="********">
+        </div>
+        <button type="submit" class="btn btn-primary w-100 fw-bold py-2" style="background-color: #0077b6; border-color: #0077b6;">Acceder</button>
+    </form>
+
+    <div class="mt-3 text-center">
+        <a href="{{ url_for('auth.register_page') }}" class="text-decoration-none text-primary-custom fw-bold" style="font-size: 16px;">¿Nuevo cliente? Regístrate aquí</a>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="{{ url_for('static', filename='scripts/auth.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "admin/layout_admin.html" %}
+
+{% block title %}Inicio{% endblock %}
+{% block header_title %}Panel de Control{% endblock %}
+
+{% block content %}
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <div class="stat-info">
+                <h5>Total Usuarios</h5>
+                <h2>{{ stats.usuarios }}</h2>
+            </div>
+            <div class="stat-icon icon-blue">
+                <i class="bi bi-people-fill"></i>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-info">
+                <h5>Proveedores</h5>
+                <h2>{{ stats.proveedores }}</h2>
+            </div>
+            <div class="stat-icon icon-purple">
+                <i class="bi bi-truck"></i>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-info">
+                <h5>Valor Materia Prima</h5>
+                <h2>${{ stats.valor_mp }}</h2>
+            </div>
+            <div class="stat-icon icon-green">
+                <i class="bi bi-currency-dollar"></i>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-info">
+                <h5>Productos</h5>
+                <h2>{{ stats.productos }}</h2>
+            </div>
+            <div class="stat-icon icon-orange">
+                <i class="bi bi-box-seam-fill"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <div class="section-header">
+            <h3>Resumen de Operaciones</h3>
+            <a href="#" class="btn-primary">
+                <i class="bi bi-download"></i> Reporte
+            </a>
+        </div>
+
+        <div style="height: 300px; background: #f9fafb; border: 2px dashed #e5e7eb; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #9ca3af;">
+        </div>
+    </div>
+{% endblock %}
