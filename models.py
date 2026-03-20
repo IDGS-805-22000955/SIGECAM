@@ -231,3 +231,4 @@ class Kardex(db.Model):
     cantidad = db.Column(db.Numeric(10, 2), nullable=False)
     fecha_movimiento = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     id_usuario = db.Column(db.Integer, db.ForeignKey('Usuarios.id_usuario', ondelete='RESTRICT'), nullable=False)
+    

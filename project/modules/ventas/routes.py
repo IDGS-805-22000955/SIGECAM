@@ -24,6 +24,13 @@ def index(current_user):
         venta_actual=datos_dashboard['venta_actual'],
         productos_venta=datos_dashboard['productos_venta']
     )
+    
+@ventas_bp.route('/agregar')
+@admin_required
+def agregar(current_user):
+    return render_template('admin/ventas/agregarVenta.html', user=current_user)
+
+
 
 @ventas_bp.route('/api/ventas/procesar', methods=['POST'])
 # @login_required 

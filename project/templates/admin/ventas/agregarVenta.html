@@ -1,0 +1,13 @@
+{% extends "admin/layout_admin.html" %} {% block title %}Punto de Venta{%
+endblock %} {% block header_title %}Agregar Venta{% endblock %} {% block
+header_buttons %}
+<a
+  href="{{ url_for('ventas.index') }}"
+  class="bg-red-900 hover:bg-red-800 text-white px-4 md:px-5 py-2 rounded-md text-xs md:text-sm font-medium transition-colors shadow-sm flex items-center gap-2"
+>
+  <i class="bi bi-arrow-left"></i>
+  Regresar
+</a>
+{% endblock %} {% block content %}
+<div>Hola agregar venta</div>
+{% endblock %}
