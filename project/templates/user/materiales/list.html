@@ -1,0 +1,25 @@
+{% extends "user/layout_user.html" %}  {% block title %}Materia Prima{% endblock %}
+{% block header_title %}Inventario Disponible{% endblock %}
+
+{% block content %}
+    <div class="section-card">
+        <table class="modern-table">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Material</th>
+                    <th>Stock</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in materiales %}
+                <tr>
+                    <td>{{ m.codigo_interno }}</td>
+                    <td>{{ m.nombre }}</td>
+                    <td>{{ m.cantidad_stock }} {{ m.unidad_medida }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

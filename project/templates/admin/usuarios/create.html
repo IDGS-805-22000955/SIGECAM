@@ -1,0 +1,76 @@
+{% extends "admin/layout_admin.html" %}
+{% block title %}Nuevo Usuario{% endblock %}
+{% block header_title %}Registrar Usuario{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto;">
+    <div class="section-card">
+        <form method="POST" enctype="multipart/form-data" action="{{ url_for('admin.users_create') }}">
+
+            <div style="display: flex; gap: 2rem; align-items: flex-start; margin-bottom: 2rem;">
+                <div style="flex: 0 0 100px; text-align: center;">
+                    <div style="width: 100px; height: 100px; background: var(--pale-slate); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--grey-olive); overflow: hidden; border: 2px solid var(--border-color);">
+                        <i class="bi bi-person-fill" id="preview-icon"></i>
+                        <img id="preview-img" src="" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                    </div>
+                </div>
+                <div style="flex: 1;">
+                    <label class="form-label">Foto de Perfil</label>
+                    <input type="file" name="foto" class="form-input" accept="image/*" onchange="previewImage(this)">
+                    <small style="color: var(--text-muted);">Formatos: JPG, PNG. Máx 5MB.</small>
+                </div>
+            </div>
+
+            <h4 style="color: var(--primary); margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+                <i class="bi bi-shield-lock"></i> Credenciales
+            </h4>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Correo Electrónico *</label>
+                    <input type="email" name="email" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Contraseña *</label>
+                    <input type="password" name="password" class="form-input" required>
+                </div>
+            </div>
+
+            <h4 style="color: var(--primary); margin: 2rem 0 1.5rem 0; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+                <i class="bi bi-person-vcard"></i> Información Personal
+            </h4>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Nombre(s) *</label>
+                    <input type="text" name="nombre" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Apellido Paterno *</label>
+                    <input type="text" name="apellido_paterno" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Apellido Materno</label>
+                    <input type="text" name="apellido_materno" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Teléfono</label>
+                    <input type="text" name="telefono" class="form-input">
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <a href="{{ url_for('admin.usuarios_list') }}" class="btn-secondary">Cancelar</a>
+                <button type="submit" class="btn-primary">Registrar Usuario</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="{{ url_for('static', filename='scripts/admin_usuarios_create.js') }}"></script>
+{% endblock %}

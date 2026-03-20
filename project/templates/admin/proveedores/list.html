@@ -1,0 +1,60 @@
+{% extends "admin/layout_admin.html" %}
+{% block title %}Proveedores{% endblock %}
+{% block header_title %}Proveedores{% endblock %}
+
+{% block content %}
+<div class="section-header">
+    <div>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem;">Gestión de la cadena de suministro</p>
+    </div>
+    <a href="{{ url_for('admin.proveedores_create') }}" class="btn-primary">
+        <i class="bi bi-plus-lg"></i> Nuevo Proveedor
+    </a>
+</div>
+
+<div class="table-container">
+    <table class="modern-table">
+        <thead>
+            <tr>
+                <th>Empresa</th>
+                <th>Contacto Principal</th>
+                <th>RFC</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th style="text-align: right;">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in proveedores %}
+            <tr>
+                <td style="font-weight: 600; color: var(--text-headers);">
+                    {{ p.nombre_empresa }}
+                </td>
+                <td>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 24px; height: 24px; background: var(--pale-slate); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: var(--text-main);">
+                            {{ p.contacto_nombre[0] }}
+                        </div>
+                        {{ p.contacto_nombre }} {{ p.apellido_paterno }}
+                    </div>
+                </td>
+                <td>{{ p.rfc or '-' }}</td>
+                <td>{{ p.telefono or '-' }}</td>
+                <td>{{ p.email or '-' }}</td>
+                <td style="text-align: right;">
+                    <button class="action-btn" title="Ver detalle"><i class="bi bi-eye"></i></button>
+                    <button class="action-btn" title="Editar"><i class="bi bi-pencil"></i></button>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" style="text-align: center; padding: 3rem; color: var(--text-muted);">
+                    <i class="bi bi-inbox" style="font-size: 2rem; display: block; margin-bottom: 1rem; opacity: 0.5;"></i>
+                    No hay proveedores registrados aún.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
