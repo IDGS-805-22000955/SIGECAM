@@ -1,5 +1,6 @@
-from models import Venta, DetalleVenta, Kardex, FichaTecnica, Cliente
+from models import Venta, DetalleVenta, Kardex, FichaTecnica, Cliente, ProductoTerminado
 from project.repositories.venta_repository import VentaRepository, ProductoRepository
+from datetime import datetime
 
 class VentaService:
     @staticmethod

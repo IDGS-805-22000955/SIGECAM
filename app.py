@@ -6,7 +6,8 @@ from project.admin.routes import admin_bp
 from project.auth.routes import auth_bp
 from project.user.routes import user_bp
 from project.modules.pedidos import pedidos_bp
-from project.modules.ventas.routes import ventas_bp
+from project.modules.ventas import ventas_bp
+from project.modules.compras import compras_bp
 import models
 
 app = Flask(__name__, template_folder='project/templates', static_folder='project/static', static_url_path='/static')
@@ -22,7 +23,7 @@ app.register_blueprint(auth_bp, url_prefix='/')
 app.register_blueprint(user_bp, url_prefix='/user')
 app.register_blueprint(pedidos_bp, url_prefix='/pedidos')
 app.register_blueprint(ventas_bp, url_prefix='/ventas')
-
+app.register_blueprint(compras_bp, url_prefix='/compras')
 
 @app.errorhandler(404)
 def page_not_found(e):
