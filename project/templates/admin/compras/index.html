@@ -1,0 +1,206 @@
+{% extends "admin/layout_admin.html" %} {% block title %}Gestión de Compras{%
+endblock %} {% block header_title %}Gestión de Compras{% endblock %} {% block
+header_buttons %}
+<button
+  class="bg-[#0f4b5b] hover:bg-[#0a3844] text-white px-4 md:px-5 py-2 rounded-md text-xs md:text-sm font-medium transition-colors shadow-sm flex items-center gap-2"
+>
+  <i class="bi bi-plus-lg"></i>
+  Nueva Compra
+</button>
+{% endblock %} {% block content %}
+<div class="max-w-7xl mx-auto bg-white rounded-xl p-0 lg:p-0">
+  <p class="text-sm text-gray-500 mb-6 mt-[-1rem]">
+    Control de compras de materia prima
+  </p>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div
+      class="bg-slate-200 rounded-xl p-4 flex justify-between items-center shadow-sm"
+    >
+      <div>
+        <p
+          class="text-[11px] text-gray-500 font-bold mb-1 uppercase tracking-wide"
+        >
+          Compras Hoy
+        </p>
+        <p class="text-xl font-bold text-gray-900">
+          {{ compras_hoy | default('1') }}
+        </p>
+      </div>
+      <div
+        class="w-10 h-10 bg-[#0f4b5b] text-white rounded-lg flex items-center justify-center"
+      >
+        <i class="bi bi-cart3 text-xl"></i>
+      </div>
+    </div>
+
+    <div
+      class="bg-slate-200 rounded-xl p-4 flex justify-between items-center shadow-sm"
+    >
+      <div>
+        <p
+          class="text-[11px] text-gray-500 font-bold mb-1 uppercase tracking-wide"
+        >
+          Gasto Hoy
+        </p>
+        <p class="text-xl font-bold text-gray-900">
+          ${{ gasto_hoy | default('200') }}
+        </p>
+      </div>
+      <div
+        class="w-10 h-10 bg-[#5D3A3A] text-white rounded-lg flex items-center justify-center"
+      >
+        <i class="bi bi-currency-dollar text-xl"></i>
+      </div>
+    </div>
+
+    <div
+      class="bg-slate-200 rounded-xl p-4 flex justify-between items-center shadow-sm"
+    >
+      <div>
+        <p
+          class="text-[11px] text-gray-500 font-bold mb-1 uppercase tracking-wide"
+        >
+          Total Compras
+        </p>
+        <p class="text-xl font-bold text-gray-900">
+          {{ total_compras | default('1') }}
+        </p>
+      </div>
+      <div
+        class="w-10 h-10 bg-[#64748b] text-white rounded-lg flex items-center justify-center"
+      >
+        <i class="bi bi-box-seam text-xl"></i>
+      </div>
+    </div>
+
+    <div
+      class="bg-slate-200 rounded-xl p-4 flex justify-between items-center shadow-sm"
+    >
+      <div>
+        <p
+          class="text-[11px] text-gray-500 font-bold mb-1 uppercase tracking-wide"
+        >
+          Inversión Total
+        </p>
+        <p class="text-xl font-bold text-gray-900">
+          ${{ inversion_total | default('200') }}
+        </p>
+      </div>
+      <div
+        class="w-10 h-10 bg-[#e0e7ff] text-[#6366f1] rounded-lg flex items-center justify-center"
+      >
+        <i class="bi bi-graph-up-arrow text-xl"></i>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="bg-slate-200 rounded-xl p-3 flex flex-col md:flex-row justify-between items-center gap-4 mb-6 shadow-sm"
+  >
+    <div
+      class="relative w-full md:w-[60%] flex items-center bg-white rounded-lg shadow-sm"
+    >
+      <div class="pl-3 flex items-center pointer-events-none">
+        <i class="bi bi-search text-gray-400"></i>
+      </div>
+      <input
+        type="text"
+        class="bg-transparent border-none text-gray-900 text-sm focus:ring-0 block w-full p-2.5"
+        placeholder="Buscar por proveedor o ID..."
+      />
+    </div>
+
+    <div class="flex flex-wrap gap-2 w-full md:w-auto">
+      <button
+        class="bg-white text-gray-700 hover:bg-gray-50 text-xs font-bold px-4 py-2.5 rounded-lg shadow-sm"
+      >
+        Hoy
+      </button>
+      <button
+        class="bg-white text-gray-700 hover:bg-gray-50 text-xs font-bold px-4 py-2.5 rounded-lg shadow-sm"
+      >
+        Esta Semana
+      </button>
+      <button
+        class="bg-white text-gray-700 hover:bg-gray-50 text-xs font-bold px-4 py-2.5 rounded-lg shadow-sm"
+      >
+        Este Mes
+      </button>
+      <button
+        class="bg-[#5D3A3A] hover:bg-[#4a2e2e] text-white text-xs font-bold px-4 py-2.5 rounded-lg shadow-sm transition-colors"
+      >
+        Todas
+      </button>
+    </div>
+  </div>
+
+  <div class="bg-slate-200 rounded-xl p-6 shadow-sm">
+    <div
+      class="flex flex-col md:flex-row justify-between items-start mb-6 gap-4"
+    >
+      <div class="text-xs text-gray-500 space-y-1.5">
+        <h2 class="text-base font-bold text-gray-900 mb-2">
+          Compra #{{ compra_actual.id | default('17728458') }}
+        </h2>
+        <p>
+          Proveedor:
+          <span class="text-gray-700 font-medium"
+            >{{ compra_actual.proveedor | default('Proveedor de Cueros SA')
+            }}</span
+          >
+        </p>
+        <p>
+          Fecha:
+          <span class="text-gray-700 font-medium"
+            >{{ compra_actual.fecha | default('6/3/2026, 19:11:29') }}</span
+          >
+        </p>
+        <p>
+          Registrado por:
+          <span class="text-gray-700 font-medium"
+            >{{ user.get('nombre', 'Administrador') if user else 'Administrador'
+            }}</span
+          >
+        </p>
+      </div>
+
+      <div class="text-right flex flex-col items-end">
+        <p class="text-xs text-gray-500 font-medium mb-1">Total de la Compra</p>
+        <p class="text-2xl font-bold text-gray-900">
+          ${{ compra_actual.total | default('200') }}
+        </p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl p-1 mb-2 shadow-sm border border-gray-100">
+      <div class="p-4 border-b border-gray-100">
+        <p class="text-sm font-bold text-gray-900">Materiales Comprados:</p>
+      </div>
+
+      {% set materiales = materiales_compra | default([{'nombre': 'Cuero
+      Premium', 'precio': 20, 'cantidad': 10, 'unidad': 'metros', 'subtotal':
+      200}]) %}
+
+      <div class="bg-slate-200 m-2 rounded-lg">
+        {% for material in materiales %}
+        <div
+          class="flex justify-between items-center p-3 {% if not loop.last %}border-b border-gray-300{% endif %}"
+        >
+          <div>
+            <p class="text-sm font-bold text-gray-900">{{ material.nombre }}</p>
+            <p class="text-xs text-gray-500 mt-0.5 font-medium">
+              {{ material.cantidad }} {{ material.unidad }} &times; ${{
+              material.precio }}
+            </p>
+          </div>
+          <p class="text-sm font-bold text-gray-900">
+            ${{ material.subtotal }}
+          </p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,226 @@
+{% extends "admin/layout_admin.html" %} {% block title %}Gestión de Pedidos{%
+endblock %} {% block header_title %}Gestión de Pedidos{% endblock %} {% block
+content %}
+<div class="max-w-7xl mx-auto bg-white rounded-xl p-0 lg:p-0">
+  <p class="text-sm text-gray-500 mb-6 mt-[-1rem]">
+    Conexión entre Ventas y Producción
+  </p>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div
+      class="bg-slate-200 rounded-xl p-4 flex justify-between items-center shadow-sm"
+    >
+      <div>
+        <p
+          class="text-[11px] text-gray-500 font-bold mb-1 uppercase tracking-wide"
+        >
+          Total Pedidos
+        </p>
+        <p class="text-xl font-bold text-gray-900">
+          {{ total_pedidos | default('1') }}
+        </p>
+      </div>
+      <div
+        class="w-10 h-10 bg-[#0f4b5b] text-white rounded-lg flex items-center justify-center"
+      >
+        <i class="bi bi-cart3 text-xl"></i>
+      </div>
+    </div>
+
+    <div
+      class="bg-slate-200 rounded-xl p-4 flex justify-between items-center shadow-sm"
+    >
+      <div>
+        <p
+          class="text-[11px] text-gray-500 font-bold mb-1 uppercase tracking-wide"
+        >
+          Pendientes
+        </p>
+        <p class="text-xl font-bold text-gray-900">
+          {{ pendientes | default('1') }}
+        </p>
+      </div>
+      <div
+        class="w-10 h-10 bg-[#64748b] text-white rounded-lg flex items-center justify-center"
+      >
+        <i class="bi bi-clock-history text-xl"></i>
+      </div>
+    </div>
+
+    <div
+      class="bg-slate-200 rounded-xl p-4 flex justify-between items-center shadow-sm"
+    >
+      <div>
+        <p
+          class="text-[11px] text-gray-500 font-bold mb-1 uppercase tracking-wide"
+        >
+          En Producción
+        </p>
+        <p class="text-xl font-bold text-gray-900">
+          {{ en_produccion | default('0') }}
+        </p>
+      </div>
+      <div
+        class="w-10 h-10 bg-[#0f4b5b] text-white rounded-lg flex items-center justify-center"
+      >
+        <i class="bi bi-factory text-xl"></i>
+      </div>
+    </div>
+
+    <div
+      class="bg-slate-200 rounded-xl p-4 flex justify-between items-center shadow-sm"
+    >
+      <div>
+        <p
+          class="text-[11px] text-gray-500 font-bold mb-1 uppercase tracking-wide"
+        >
+          Completados
+        </p>
+        <p class="text-xl font-bold text-gray-900">
+          {{ completados | default('0') }}
+        </p>
+      </div>
+      <div
+        class="w-10 h-10 bg-[#dcfce3] text-[#166534] rounded-lg flex items-center justify-center"
+      >
+        <i class="bi bi-check-circle text-xl"></i>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="bg-slate-200 rounded-xl p-3 flex flex-col md:flex-row justify-between items-center gap-4 mb-6 shadow-sm"
+  >
+    <div
+      class="relative w-full md:w-[50%] flex items-center bg-white rounded-lg shadow-sm"
+    >
+      <div class="pl-3 flex items-center pointer-events-none">
+        <i class="bi bi-search text-gray-400"></i>
+      </div>
+      <input
+        type="text"
+        class="bg-transparent border-none text-gray-900 text-sm focus:ring-0 block w-full p-2.5"
+        placeholder="Buscar por cliente o número de pedido..."
+      />
+    </div>
+
+    <div class="flex flex-wrap gap-2 w-full md:w-auto">
+      <button
+        class="bg-[#5D3A3A] hover:bg-[#4a2e2e] text-white text-xs font-bold px-4 py-2.5 rounded-lg shadow-sm transition-colors"
+      >
+        Todos
+      </button>
+      <button
+        class="bg-white text-gray-700 hover:bg-gray-50 text-xs font-bold px-4 py-2.5 rounded-lg shadow-sm"
+      >
+        Pendiente
+      </button>
+      <button
+        class="bg-white text-gray-700 hover:bg-gray-50 text-xs font-bold px-4 py-2.5 rounded-lg shadow-sm"
+      >
+        En Producción
+      </button>
+      <button
+        class="bg-white text-gray-700 hover:bg-gray-50 text-xs font-bold px-4 py-2.5 rounded-lg shadow-sm"
+      >
+        Completado
+      </button>
+      <button
+        class="bg-white text-gray-700 hover:bg-gray-50 text-xs font-bold px-4 py-2.5 rounded-lg shadow-sm"
+      >
+        Entregado
+      </button>
+    </div>
+  </div>
+
+  <div class="bg-slate-200 rounded-xl p-6 shadow-sm">
+    <div
+      class="flex flex-col md:flex-row justify-between items-start mb-6 gap-4"
+    >
+      <div class="text-xs text-gray-500 space-y-1.5 w-full">
+        <div class="flex items-center gap-3 mb-2">
+          <h2 class="text-base font-bold text-gray-900">
+            Pedido #{{ pedido_actual.id | default('17728446') }}
+          </h2>
+          <span
+            class="px-2.5 py-0.5 rounded-full text-[10px] font-bold {% if pedido_actual.estado == 'Pendiente' %} bg-gray-400 text-white {% elif pedido_actual.estado == 'En Producción' %} bg-blue-500 text-white {% elif pedido_actual.estado == 'Terminado' %} bg-green-500 text-white {% else %} bg-gray-400 text-white {% endif %}"
+          >
+            {{ pedido_actual.estado | default('Pendiente') }}
+          </span>
+        </div>
+        <p>
+          Cliente:
+          <span class="text-gray-700 font-medium"
+            >{{ pedido_actual.cliente | default('María González') }}</span
+          >
+        </p>
+        <p>
+          Fecha:
+          <span class="text-gray-700 font-medium"
+            >{{ pedido_actual.fecha | default('6/3/2026') }}</span
+          >
+        </p>
+        <p>
+          Entrega:
+          <span class="text-gray-700 font-medium"
+            >{{ pedido_actual.fecha_entrega | default('11/12/2026') }}</span
+          >
+        </p>
+      </div>
+
+      <div class="w-24 h-8 bg-white rounded-md shadow-sm"></div>
+    </div>
+
+    <div class="bg-white rounded-xl p-1 mb-2 shadow-sm border border-gray-100">
+      <div class="p-4 border-b border-gray-100">
+        <p class="text-sm font-bold text-gray-900">Productos:</p>
+      </div>
+
+      {% set productos = productos_pedido | default([{'nombre': 'Bota Casual
+      Elegante', 'talla': 42, 'cantidad': 1, 'precio': 1299, 'foto': None}]) %}
+
+      <div class="m-2">
+        {% for producto in productos %}
+        <div
+          class="flex justify-between items-center p-3 {% if not loop.last %}border-b border-gray-100{% endif %}"
+        >
+          <div class="flex items-center gap-3">
+            <div
+              class="w-10 h-10 bg-gray-200 rounded-md overflow-hidden flex items-center justify-center flex-shrink-0"
+            >
+              {% if producto.foto %}
+              <img
+                src="{{ url_for('static', filename='uploads/' + producto.foto) }}"
+                class="w-full h-full object-cover"
+              />
+              {% else %}
+              <i class="bi bi-image text-gray-400"></i>
+              {% endif %}
+            </div>
+            <div>
+              <p class="text-sm font-bold text-gray-900">
+                {{ producto.nombre }}
+              </p>
+              <p class="text-[11px] text-gray-500 mt-0.5 font-medium">
+                Talla {{ producto.talla }} &bull; Cantidad: {{ producto.cantidad
+                }}
+              </p>
+            </div>
+          </div>
+          <p class="text-sm font-bold text-gray-900">${{ producto.precio }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div
+      class="border-t border-gray-300 pt-4 flex justify-between items-center px-2"
+    >
+      <p class="text-sm font-bold text-gray-500">Total del Pedido:</p>
+      <p class="text-xl font-bold text-gray-900">
+        ${{ pedido_actual.total | default('1299') }}
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

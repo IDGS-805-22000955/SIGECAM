@@ -16,7 +16,8 @@ class MateriaPrimaRepository:
                 unidad_medida=data.get('unidad_medida', 'Piezas'),
                 porcentaje_merma=data.get('porcentaje_merma', 0.0),
                 stock_actual=data.get('stock_actual', 0.0),
-                stock_minimo=data.get('stock_minimo', 0.0)
+                stock_minimo=data.get('stock_minimo', 0.0),
+                costo_unitario=data.get('costo_unitario', 0.00)
             )
 
             db.session.add(nueva_mp)

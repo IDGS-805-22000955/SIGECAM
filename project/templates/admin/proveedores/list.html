@@ -3,53 +3,60 @@
 {% block header_title %}Proveedores{% endblock %}
 
 {% block content %}
-<div class="section-header">
+<div class="flex flex-col md:flex-row items-center justify-between mb-6">
     <div>
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem;">Gestión de la cadena de suministro</p>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Directorio de Proveedores</h2>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Gestión de la cadena de suministro y materias primas.</p>
     </div>
-    <a href="{{ url_for('admin.proveedores_create') }}" class="btn-primary">
-        <i class="bi bi-plus-lg"></i> Nuevo Proveedor
+    <a href="{{ url_for('admin.proveedores_create') }}" class="mt-4 md:mt-0 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex items-center gap-2 transition-colors">
+        <i class="bi bi-plus-lg text-lg"></i> Nuevo Proveedor
     </a>
 </div>
 
-<div class="table-container">
-    <table class="modern-table">
-        <thead>
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-                <th>Empresa</th>
-                <th>Contacto Principal</th>
-                <th>RFC</th>
-                <th>Teléfono</th>
-                <th>Email</th>
-                <th style="text-align: right;">Acciones</th>
+                <th scope="col" class="px-6 py-3">Razón Social</th>
+                <th scope="col" class="px-6 py-3">RFC</th>
+                <th scope="col" class="px-6 py-3">Teléfono</th>
+                <th scope="col" class="px-6 py-3">Email</th>
+                <th scope="col" class="px-6 py-3 text-right">Acciones</th>
             </tr>
         </thead>
         <tbody>
             {% for p in proveedores %}
-            <tr>
-                <td style="font-weight: 600; color: var(--text-headers);">
-                    {{ p.nombre_empresa }}
-                </td>
-                <td>
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <div style="width: 24px; height: 24px; background: var(--pale-slate); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: var(--text-main);">
-                            {{ p.contacto_nombre[0] }}
-                        </div>
-                        {{ p.contacto_nombre }} {{ p.apellido_paterno }}
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center gap-3">
+                    <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-purple-100 rounded-full dark:bg-purple-900">
+                        <span class="font-medium text-purple-600 dark:text-purple-300 uppercase">
+                            {{ p.razon_social[0] if p.razon_social else 'P' }}
+                        </span>
                     </div>
+                    <div class="text-base font-semibold">{{ p.razon_social }}</div>
                 </td>
-                <td>{{ p.rfc or '-' }}</td>
-                <td>{{ p.telefono or '-' }}</td>
-                <td>{{ p.email or '-' }}</td>
-                <td style="text-align: right;">
-                    <button class="action-btn" title="Ver detalle"><i class="bi bi-eye"></i></button>
-                    <button class="action-btn" title="Editar"><i class="bi bi-pencil"></i></button>
+                <td class="px-6 py-4">
+                    {{ p.rfc or '<span class="text-gray-400 italic">No registrado</span>'|safe }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ p.telefono or '-' }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ p.email or '-' }}
+                </td>
+                <td class="px-6 py-4 text-right">
+                    <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-3" title="Ver detalle">
+                        <i class="bi bi-eye text-lg"></i>
+                    </button>
+                    <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline" title="Editar">
+                        <i class="bi bi-pencil text-lg"></i>
+                    </button>
                 </td>
             </tr>
             {% else %}
             <tr>
-                <td colspan="6" style="text-align: center; padding: 3rem; color: var(--text-muted);">
-                    <i class="bi bi-inbox" style="font-size: 2rem; display: block; margin-bottom: 1rem; opacity: 0.5;"></i>
+                <td colspan="5" class="px-6 py-10 text-center text-gray-500 dark:text-gray-400">
+                    <i class="bi bi-inbox text-4xl block mb-3 opacity-50"></i>
                     No hay proveedores registrados aún.
                 </td>
             </tr>

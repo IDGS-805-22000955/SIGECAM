@@ -1,0 +1,186 @@
+{% extends "admin/layout_admin.html" %} {% block title %}Punto de Venta{%
+endblock %} {% block header_title %}Punto de Venta{% endblock %} {% block
+header_buttons %}
+<a
+  href="{{ url_for('ventas.agregar') }}"
+  class="bg-cyan-900 hover:bg-cyan-800 text-white px-4 md:px-5 py-2 rounded-md text-xs md:text-sm font-medium transition-colors shadow-sm flex items-center gap-2"
+>
+  <i class="bi bi-plus-lg"></i>
+  Nueva Venta
+</a>
+{% endblock %} {% block content %}
+<div
+  class="max-w-7xl mx-auto bg-white rounded-xl shadow-sm border border-gray-100 p-6 lg:p-8"
+>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div class="bg-slate-100 rounded-xl p-4 flex justify-between items-center">
+      <div>
+        <p class="text-xs text-gray-500 font-medium mb-1">Ventas Hoy</p>
+        <p class="text-xl font-bold text-gray-900">
+          {{ ventas_hoy | default('1') }}
+        </p>
+      </div>
+      <div
+        class="w-10 h-10 bg-cyan-900 text-white rounded-lg flex items-center justify-center"
+      >
+        <i class="bi bi-bag-check"></i>
+      </div>
+    </div>
+
+    <div class="bg-slate-100 rounded-xl p-4 flex justify-between items-center">
+      <div>
+        <p class="text-xs text-gray-500 font-medium mb-1">Ingresos Hoy</p>
+        <p class="text-xl font-bold text-gray-900">
+          ${{ ingresos_hoy | default('2598') }}
+        </p>
+      </div>
+      <div
+        class="w-10 h-10 bg-red-900 text-white rounded-lg flex items-center justify-center"
+      >
+        <i class="bi bi-currency-dollar"></i>
+      </div>
+    </div>
+
+    <div class="bg-slate-100 rounded-xl p-4 flex justify-between items-center">
+      <div>
+        <p class="text-xs text-gray-500 font-medium mb-1">Total Ventas</p>
+        <p class="text-xl font-bold text-gray-900">
+          {{ total_ventas | default('1') }}
+        </p>
+      </div>
+      <div
+        class="w-10 h-10 bg-gray-500 text-white rounded-lg flex items-center justify-center"
+      >
+        <i class="bi bi-bag-fill"></i>
+      </div>
+    </div>
+
+    <div class="bg-slate-100 rounded-xl p-4 flex justify-between items-center">
+      <div>
+        <p class="text-xs text-gray-500 font-medium mb-1">Ticket Promedio</p>
+        <p class="text-xl font-bold text-gray-900">
+          ${{ ticket_promedio | default('2598') }}
+        </p>
+      </div>
+      <div
+        class="w-10 h-10 bg-green-100 text-green-700 rounded-lg flex items-center justify-center"
+      >
+        <i class="bi bi-graph-up-arrow"></i>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="bg-slate-100 rounded-xl p-3 flex flex-col md:flex-row justify-between items-center gap-4 mb-6"
+  >
+    <div class="relative w-full md:w-1/2">
+      <div
+        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+      >
+        <i class="bi bi-search text-gray-400"></i>
+      </div>
+      <input
+        type="text"
+        class="bg-white border-none text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-cyan-900 block w-full pl-10 p-2.5 shadow-sm"
+        placeholder="Buscar por cliente o ID de venta..."
+      />
+    </div>
+
+    <div class="flex flex-wrap gap-2">
+      <button
+        class="bg-red-900 hover:bg-red-800 text-white text-xs font-medium px-4 py-2 rounded-md shadow-sm transition-colors"
+      >
+        Hoy
+      </button>
+      <button
+        class="bg-white text-gray-700 hover:bg-gray-50 text-xs font-medium px-4 py-2 rounded-md shadow-sm"
+      >
+        Esta Semana
+      </button>
+      <button
+        class="bg-white text-gray-700 hover:bg-gray-50 text-xs font-medium px-4 py-2 rounded-md shadow-sm"
+      >
+        Este Mes
+      </button>
+      <button
+        class="bg-white text-gray-700 hover:bg-gray-50 text-xs font-medium px-4 py-2 rounded-md shadow-sm"
+      >
+        Todas
+      </button>
+    </div>
+  </div>
+
+  <div class="bg-slate-100 rounded-xl p-6">
+    <div
+      class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4"
+    >
+      <div class="text-sm text-gray-500 space-y-1">
+        <h2 class="text-base font-bold text-gray-900 mb-2">
+          Venta #{{ venta_actual.id | default('17728455') }}
+        </h2>
+        <p>
+          Cliente:
+          <span class="text-gray-700"
+            >{{ venta_actual.cliente | default('Jose') }}</span
+          >
+        </p>
+        <p>
+          Fecha:
+          <span class="text-gray-700"
+            >{{ venta_actual.fecha | default('6/3/2026, 19:06:21') }}</span
+          >
+        </p>
+        <p>
+          Vendedor:
+          <span class="text-gray-700"
+            >{{ user.nombre if user else 'Administrador' }}</span
+          >
+        </p>
+        <p>
+          Pago:
+          <span class="text-gray-700"
+            >{{ venta_actual.metodo_pago | default('Efectivo') }}</span
+          >
+        </p>
+      </div>
+      <button
+        class="bg-cyan-900 hover:bg-cyan-800 text-white font-medium text-xs px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
+      >
+        <i class="bi bi-printer"></i>
+        Imprimir Ticket
+      </button>
+    </div>
+
+    <div class="bg-white rounded-xl p-5 mb-5 shadow-sm border border-gray-100">
+      <p class="text-sm font-bold text-gray-900 mb-4">Productos:</p>
+
+      {% set productos = productos_venta | default([{'nombre': 'Bota Casual
+      Elegante', 'precio': 1299, 'cantidad': 2, 'subtotal': 2598}]) %} {% for
+      producto in productos %}
+      <div
+        class="flex justify-between items-center py-2 {% if not loop.last %}border-b border-gray-100{% endif %}"
+      >
+        <div>
+          <p class="text-sm font-medium text-gray-900">{{ producto.nombre }}</p>
+          <p class="text-xs text-gray-500 mt-0.5">
+            ${{ producto.precio }} &times; {{ producto.cantidad }}
+          </p>
+        </div>
+        <p class="text-sm font-medium text-gray-900">
+          ${{ producto.subtotal }}
+        </p>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div
+      class="border-t border-gray-300 pt-4 flex justify-between items-center"
+    >
+      <p class="text-sm font-medium text-gray-500">Total:</p>
+      <p class="text-xl font-bold text-gray-900">
+        ${{ venta_actual.total | default('2598') }}
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -3,107 +3,61 @@
 {% block header_title %}Editar Perfil{% endblock %}
 
 {% block content %}
-<div style="max-width: 800px; margin: 0 auto;">
-    
+<div class="max-w-2xl mx-auto">
+
     {% if error %}
-    <div style="background: #fee2e2; color: #b91c1c; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
-        {{ error }}
+    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+        <span class="font-medium">Error:</span> {{ error }}
     </div>
     {% endif %}
 
-    <div class="section-card">
-        <form method="POST" enctype="multipart/form-data">
-            
-            <div style="display: flex; gap: 2rem; align-items: center; margin-bottom: 2rem;">
-                <div style="text-align: center;">
-                    {% if edit_user.foto_path %}
-                        <img id="preview-img" src="{{ url_for('static', filename='uploads/usuarios/' + edit_user.foto_path) }}" 
-                             style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid var(--espresso);">
-                    {% else %}
-                        <div id="preview-placeholder" style="width: 100px; height: 100px; background: var(--pale-slate); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--grey-olive);">
-                            {{ edit_user.nombre[0] }}
-                        </div>
-                        <img id="preview-img" src="" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid var(--espresso); display: none;">
-                    {% endif %}
-                </div>
-                <div style="flex: 1;">
-                    <label class="form-label">Cambiar Foto</label>
-                    <input type="file" name="foto" class="form-input" accept="image/*" onchange="previewImage(this)">
-                </div>
-            </div>
+    <div class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
 
-            <h4 style="color: var(--primary); border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">
-                Credenciales
-            </h4>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" name="email" class="form-input" value="{{ edit_user.email }}" required>
+        <div class="flex items-center gap-4 mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+            <div class="relative inline-flex items-center justify-center w-16 h-16 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                <span class="text-2xl font-medium text-gray-600 dark:text-gray-300 uppercase">
+                    {{ edit_user.nombre_usuario[0] if edit_user.nombre_usuario else '?' }}
+                </span>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">{{ edit_user.nombre_usuario }}</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Editando credenciales de acceso</p>
+            </div>
+        </div>
+
+        <form method="POST" action="{{ url_for('admin.users_edit', user_id=edit_user.id_usuario) }}">
+
+            <div class="grid gap-6 mb-6 md:grid-cols-2">
+                <div>
+                    <label for="nombre_usuario" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre de Usuario</label>
+                    <input type="text" id="nombre_usuario" name="nombre_usuario" value="{{ edit_user.nombre_usuario }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Rol</label>
-                    <select name="role" class="form-input">
-                        <option value="user" {% if edit_user.role == 'user' %}selected{% endif %}>Colaborador</option>
-                        <option value="admin" {% if edit_user.role == 'admin' %}selected{% endif %}>Administrador</option>
+
+                <div>
+                    <label for="role" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rol del Sistema</label>
+                    <select id="role" name="rol" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="Ventas" {% if edit_user.rol == 'Ventas' %}selected{% endif %}>Ventas</option>
+                        <option value="Producción" {% if edit_user.rol == 'Producción' %}selected{% endif %}>Producción</option>
+                        <option value="Sistemas" {% if edit_user.rol == 'Sistemas' %}selected{% endif %}>Sistemas</option>
+                        <option value="Admin" {% if edit_user.rol == 'Admin' %}selected{% endif %}>Administrador</option>
                     </select>
                 </div>
-                <div class="form-group full-width">
-                    <label class="form-label">Contraseña</label>
-                    <input type="password" name="password" class="form-input" placeholder="Dejar en blanco para mantener la actual">
-                </div>
             </div>
 
-            <h4 style="color: var(--primary); border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin: 2rem 0 1.5rem 0;">
-                Datos Personales
-            </h4>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label class="form-label">Nombre</label>
-                    <input type="text" name="nombre" class="form-input" value="{{ edit_user.nombre }}" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Apellido Paterno</label>
-                    <input type="text" name="apellido_paterno" class="form-input" value="{{ edit_user.apellido_paterno }}" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Apellido Materno</label>
-                    <input type="text" name="apellido_materno" class="form-input" value="{{ edit_user.apellido_materno or '' }}">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Teléfono</label>
-                    <input type="text" name="telefono" class="form-input" value="{{ edit_user.telefono or '' }}">
-                </div>
+            <div class="mb-6">
+                <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nueva Contraseña</label>
+                <input type="password" id="password" name="password" placeholder="Dejar en blanco para mantener la actual" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             </div>
 
-            <h4 style="color: var(--primary); border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin: 2rem 0 1.5rem 0;">
-                Dirección
-            </h4>
-            <div class="form-grid">
-                <div class="form-group full-width">
-                    <label class="form-label">Calle</label>
-                    <input type="text" name="calle" class="form-input" value="{{ edit_user.calle or '' }}">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Colonia</label>
-                    <input type="text" name="colonia" class="form-input" value="{{ edit_user.colonia or '' }}">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">C.P.</label>
-                    <input type="text" name="codigo_postal" class="form-input" value="{{ edit_user.codigo_postal or '' }}">
-                </div>
-            </div>
-
-            <div class="form-actions">
-                <a href="{{ url_for('admin.usuarios_list') }}" class="btn-secondary">Cancelar</a>
-                <button type="submit" class="btn-primary">Guardar Cambios</button>
+            <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <a href="{{ url_for('admin.usuarios_list') }}" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                    Cancelar
+                </a>
+                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                    Guardar Cambios
+                </button>
             </div>
         </form>
     </div>
 </div>
-{% endblock %}
-
-{% block scripts %}
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script src="{{ url_for('static', filename='scripts/admin_usuarios_edit.js') }}"></script>
 {% endblock %}

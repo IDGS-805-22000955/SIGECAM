@@ -4,58 +4,60 @@
 {% block header_title %}Panel de Control{% endblock %}
 
 {% block content %}
-    <div class="stats-grid">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
 
-        <div class="stat-card">
-            <div class="stat-info">
-                <h5>Total Usuarios</h5>
-                <h2>{{ stats.usuarios }}</h2>
+        <div class="flex items-center justify-between p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div>
+                <h5 class="mb-1 text-sm font-medium text-gray-500 dark:text-gray-400">Total Usuarios</h5>
+                <h2 class="text-3xl font-bold leading-none text-gray-900 dark:text-white">{{ stats.usuarios }}</h2>
             </div>
-            <div class="stat-icon icon-blue">
-                <i class="bi bi-people-fill"></i>
+            <div class="inline-flex items-center justify-center w-12 h-12 text-blue-600 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                <i class="bi bi-people-fill text-xl"></i>
             </div>
         </div>
 
-        <div class="stat-card">
-            <div class="stat-info">
-                <h5>Proveedores</h5>
-                <h2>{{ stats.proveedores }}</h2>
+        <div class="flex items-center justify-between p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div>
+                <h5 class="mb-1 text-sm font-medium text-gray-500 dark:text-gray-400">Proveedores</h5>
+                <h2 class="text-3xl font-bold leading-none text-gray-900 dark:text-white">{{ stats.proveedores }}</h2>
             </div>
-            <div class="stat-icon icon-purple">
-                <i class="bi bi-truck"></i>
-            </div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-info">
-                <h5>Valor Materia Prima</h5>
-                <h2>${{ stats.valor_mp }}</h2>
-            </div>
-            <div class="stat-icon icon-green">
-                <i class="bi bi-currency-dollar"></i>
+            <div class="inline-flex items-center justify-center w-12 h-12 text-purple-600 bg-purple-100 rounded-full dark:bg-purple-900 dark:text-purple-300">
+                <i class="bi bi-truck text-xl"></i>
             </div>
         </div>
 
-        <div class="stat-card">
-            <div class="stat-info">
-                <h5>Productos</h5>
-                <h2>{{ stats.productos }}</h2>
+        <div class="flex items-center justify-between p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div>
+                <h5 class="mb-1 text-sm font-medium text-gray-500 dark:text-gray-400">Valor Materia Prima</h5>
+                <h2 class="text-3xl font-bold leading-none text-gray-900 dark:text-white">${{ stats.valor_mp }}</h2>
             </div>
-            <div class="stat-icon icon-orange">
-                <i class="bi bi-box-seam-fill"></i>
+            <div class="inline-flex items-center justify-center w-12 h-12 text-green-600 bg-green-100 rounded-full dark:bg-green-900 dark:text-green-300">
+                <i class="bi bi-currency-dollar text-xl"></i>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-between p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div>
+                <h5 class="mb-1 text-sm font-medium text-gray-500 dark:text-gray-400">Productos</h5>
+                <h2 class="text-3xl font-bold leading-none text-gray-900 dark:text-white">{{ stats.productos }}</h2>
+            </div>
+            <div class="inline-flex items-center justify-center w-12 h-12 text-orange-600 bg-orange-100 rounded-full dark:bg-orange-900 dark:text-orange-300">
+                <i class="bi bi-box-seam-fill text-xl"></i>
             </div>
         </div>
     </div>
 
-    <div class="section-card">
-        <div class="section-header">
-            <h3>Resumen de Operaciones</h3>
-            <a href="#" class="btn-primary">
-                <i class="bi bi-download"></i> Reporte
+    <div class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mt-6">
+
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Resumen de Operaciones</h3>
+            <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 transition-colors">
+                <i class="bi bi-download mr-2"></i> Reporte
             </a>
         </div>
 
-        <div style="height: 300px; background: #f9fafb; border: 2px dashed #e5e7eb; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #9ca3af;">
+        <div class="flex items-center justify-center h-72 bg-gray-50 border-2 border-dashed border-gray-300 rounded-xl dark:bg-gray-800 dark:border-gray-600 text-gray-400 dark:text-gray-500">
+            <span class="text-sm font-medium">Área de gráfico</span>
         </div>
     </div>
 {% endblock %}
