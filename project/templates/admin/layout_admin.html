@@ -89,7 +89,16 @@
             <span>Proveedores</span>
           </a>
         </li>
-
+       <li>
+  <a
+    href="{{ url_for('admin.clientes_list') }}"
+    class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors
+    {% if request.endpoint == 'admin.clientes_list' %} bg-[#5D3A3A] text-white {% else %} text-gray-600 hover:bg-gray-300 {% endif %}"
+  >
+    <i class="bi bi-people-fill text-lg"></i>
+    <span>Clientes</span>
+  </a>
+</li>
         <div
           class="px-4 pt-5 pb-2 text-[11px] font-bold text-gray-400 uppercase tracking-wider"
         >
@@ -229,3 +238,21 @@
     {% block scripts %}{% endblock %}
   </body>
 </html>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <script>
+      {% for category, message in messages %}
+        Swal.fire({
+          title: "{{ '¡Éxito!' if category == 'success' else 'Error' }}",
+          text: "{{ message }}",
+          icon: "{{ category }}",
+          timer: 2500,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          borderRadius: '1.25rem',
+          position: 'top-end',
+          toast: true,
+      {% endfor %}
+    </script>
+  {% endif %}
+{% endwith %}

@@ -1,0 +1,94 @@
+{% extends "admin/layout_admin.html" %}
+
+{% block title %}Directorio de Clientes{% endblock %}
+{% block header_title %}Directorio de Clientes{% endblock %}
+
+{% block header_buttons %}
+<button
+        data-modal-target="modal-cliente"
+        data-modal-toggle="modal-cliente"
+        class="bg-[#0f4b5b] hover:bg-[#0a3844] text-white px-5 py-2 rounded-md text-sm font-medium transition-colors shadow-sm flex items-center gap-2">
+    <i class="bi bi-plus-lg"></i>
+    <span>Agregar Cliente</span>
+</button>
+{% endblock %}
+
+{% block content %}
+{% include "admin/clientes/addCliente.html" %}
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-slate-200 p-6 rounded-xl flex justify-between items-center text-gray-800">
+        <div>
+            <p class="text-xs text-gray-500 uppercase font-bold">Total Clientes</p>
+            <h3 class="text-2xl font-bold">{{ clientes|length }}</h3>
+        </div>
+        <div class="w-10 h-10 bg-[#0f4b5b] rounded-lg flex items-center justify-center text-white">
+            <i class="bi bi-person-fill"></i>
+        </div>
+    </div>
+</div>
+
+<div class="relative mb-8">
+    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+        <i class="bi bi-search"></i>
+    </span>
+    <input type="text" id="searchCliente"
+           class="w-full bg-slate-100 border-none rounded-lg py-3 pl-10 focus:ring-2 focus:ring-[#5D3A3A]"
+           placeholder="Buscar cliente por nombre, email o teléfono...">
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="clientesGrid">
+    {% for cliente in clientes %}
+    <div class="bg-slate-200 p-6 rounded-xl border border-gray-100 relative text-gray-800 shadow-sm hover:shadow-md transition-shadow">
+        <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-[#5D3A3A] rounded-full flex items-center justify-center text-white font-bold text-xl">
+                    {{ cliente.nombre_completo[0].upper() }}
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-900">{{ cliente.nombre_completo }}</h4>
+                    <p class="text-xs text-gray-400">RFC: {{ cliente.rfc_datos or 'N/A' }}</p>
+                </div>
+            </div>
+
+            <div class="flex gap-3">
+                <button
+                        data-modal-target="modal-edit-{{ cliente.id_cliente }}"
+                        data-modal-toggle="modal-edit-{{ cliente.id_cliente }}"
+                        class="text-blue-600 hover:text-blue-800 transition-colors">
+                    <i class="bi bi-pencil-square text-lg"></i>
+                </button>
+
+                <button
+                        data-modal-target="modal-delete-{{ cliente.id_cliente }}"
+                        data-modal-toggle="modal-delete-{{ cliente.id_cliente }}"
+                        class="text-red-500 hover:text-red-700 transition-colors">
+                    <i class="bi bi-trash text-lg"></i>
+                </button>
+            </div>
+
+
+        </div>
+
+        <div class="text-sm text-gray-600 space-y-1 mb-4">
+            <p><i class="bi bi-envelope mr-2"></i>{{ cliente.email }}</p>
+            <p><i class="bi bi-telephone mr-2"></i>{{ cliente.telefono }}</p>
+        </div>
+
+        <hr class="border-gray-300 mb-4">
+
+        <div class="flex justify-between text-[10px] font-bold text-gray-500 uppercase tracking-wider">
+            <span>ID: #{{ cliente.id_cliente }}</span>
+            <span class="text-[#0f4b5b]">Cliente Activo</span>
+        </div>
+    </div>
+
+    {% include "admin/clientes/editCliente.html" %}
+    {% include "admin/clientes/deleteCliente.html" %}
+    {% else %}
+    <div class="col-span-full py-20 text-center bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
+        <i class="bi bi-people text-5xl text-gray-300"></i>
+        <p class="mt-4 text-gray-500">No hay clientes registrados en la base de datos.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

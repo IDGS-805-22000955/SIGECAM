@@ -1,0 +1,33 @@
+<div id="modal-delete-{{ cliente.id_cliente }}" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-w-md max-h-full">
+        <div class="relative bg-white rounded-3xl shadow-xl p-8 text-center border border-gray-100">
+
+            <button type="button" class="absolute top-4 right-4 text-gray-400 bg-transparent hover:bg-gray-100 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center transition-colors" data-modal-hide="modal-delete-{{ cliente.id_cliente }}">
+                <i class="bi bi-x-lg text-lg"></i>
+                <span class="sr-only">Cerrar modal</span>
+            </button>
+
+            <div class="flex justify-center mb-6">
+                <i class="bi bi-exclamation-triangle text-red-500 text-6xl"></i>
+            </div>
+
+            <h3 class="mb-8 text-xl font-bold text-gray-800 leading-snug">
+                ¿Estás seguro de eliminar a <br>
+                <span class="text-red-600">"{{ cliente.nombre_completo }}"</span>?
+            </h3>
+
+            <div class="flex justify-center gap-4">
+                <button data-modal-hide="modal-delete-{{ cliente.id_cliente }}" type="button" class="px-6 py-2.5 text-sm font-bold text-gray-500 bg-gray-100 hover:bg-gray-200 rounded-full transition-all focus:ring-2 focus:ring-gray-300 outline-none">
+                    Cancelar
+                </button>
+
+                <form action="{{ url_for('admin.cliente_eliminar', id=cliente.id_cliente) }}" method="POST" class="inline">
+                    <button type="submit" class="px-6 py-2.5 text-sm font-bold text-white bg-red-600 hover:bg-red-800 rounded-full transition-all shadow-sm focus:ring-2 focus:ring-red-300 outline-none flex items-center gap-2">
+                        <i class="bi bi-trash-fill"></i>
+                        Eliminar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
