@@ -3,7 +3,7 @@ from functools import wraps
 import jwt
 
 from models import Cliente
-from project.admin import admin_bp
+from project.modules.admin import admin_bp
 from project.extensions import db
 from project.repositories.token_repository import TokenRepository
 from project.repositories.admin_repository import AdminRepository
@@ -14,7 +14,7 @@ from project.repositories.materia_prima_repository import MateriaPrimaRepository
 from project.services.proveedor_service import ProveedorService
 from project.services.usuario_service import UsuarioService
 
-
+# --- LOGIN ---
 def admin_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):

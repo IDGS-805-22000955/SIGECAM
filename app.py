@@ -2,13 +2,12 @@ from flask import Flask
 from config import config
 from project.extensions import bcrypt, db, migrate
 
-from project.admin.routes import admin_bp
+from project.modules.admin.routes import admin_bp
 from project.auth.routes import auth_bp
 from project.user.routes import user_bp
 from project.modules.pedidos import pedidos_bp
 from project.modules.ventas import ventas_bp
 from project.modules.compras import compras_bp
-import models
 
 app = Flask(__name__, template_folder='project/templates', static_folder='project/static', static_url_path='/static')
 app.config.from_object(config['development'])
