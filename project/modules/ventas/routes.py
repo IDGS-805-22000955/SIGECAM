@@ -2,9 +2,6 @@ from flask import render_template, request, jsonify, session
 from project.modules.ventas import ventas_bp
 from project.services.venta_service import VentaService
 
-from project.admin import admin_bp
-from project.repositories.admin_repository import AdminRepository
-
 from project.decorators import admin_required
 
 @ventas_bp.route('/')

@@ -9,10 +9,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
     />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='dist/output.css') }}"
-    />
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
       .scroll-menu::-webkit-scrollbar {
@@ -27,204 +24,138 @@
       }
     </style>
   </head>
-  <body
-    class="flex h-screen bg-white font-sans antialiased overflow-hidden text-gray-900"
-  >
+  <body class="flex h-screen bg-white font-sans antialiased overflow-hidden text-gray-900">
+
     <aside
       id="logo-sidebar"
-      class="fixed top-0 left-0 z-40 w-[260px] h-screen transition-transform -translate-x-full md:relative md:translate-x-0 bg-gray-200 flex flex-col border-r border-gray-300 flex-shrink-0"
+      class="fixed top-0 left-0 z-40 w-[260px] h-screen transition-transform -translate-x-full md:relative md:translate-x-0 bg-[#E2E8F0] flex flex-col border-r border-gray-300 flex-shrink-0"
       aria-label="Sidebar"
     >
-      <div
-        class="flex items-center gap-3 px-6 py-6 border-b border-gray-300 flex-shrink-0"
-      >
-        <div
-          class="w-8 h-8 rounded-md bg-[#5D3A3A] flex items-center justify-center text-white"
-        >
-          <i class="bi bi-bag-fill text-sm"></i>
+      <div class="flex items-center gap-3 px-6 py-6 border-b border-gray-300 flex-shrink-0 bg-[#E2E8F0]">
+        <div class="w-10 h-10 rounded-xl bg-[#5D3A3A] flex items-center justify-center text-white shadow-sm">
+          <i class="bi bi-briefcase text-lg"></i>
         </div>
         <div class="flex flex-col">
-          <span class="font-bold text-lg leading-none text-gray-900"
-            >SIGECAM</span
-          >
-          <span class="text-[10px] text-gray-500 uppercase tracking-wide mt-1"
-            >Sistema de Gestión</span
-          >
+          <span class="font-bold text-xl leading-none text-gray-900 tracking-tight">SIGECA</span>
+          <span class="text-[11px] text-gray-600 mt-1">Sistema de Gestión</span>
         </div>
       </div>
 
-      <ul
-        class="flex-1 overflow-y-auto scroll-menu px-4 py-6 flex flex-col gap-1"
-      >
+      <ul class="flex-1 overflow-y-auto scroll-menu px-4 py-6 flex flex-col gap-1.5">
         <li>
-          <a
-            href="{{ url_for('admin.dashboard') }}"
-            class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors {% if request.endpoint == 'admin.dashboard' %}bg-[#5D3A3A] text-white{% else %}text-gray-600 hover:bg-gray-300{% endif %}"
-          >
-            <i class="bi bi-house-fill text-lg"></i>
-            <span>Inicio</span>
-          </a>
-        </li>
-
-        <div
-          class="px-4 pt-5 pb-2 text-[11px] font-bold text-gray-400 uppercase tracking-wider"
-        >
-          Gestión
-        </div>
-        <li>
-          <a
-            href="{{ url_for('admin.usuarios_list') }}"
-            class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors {% if 'usuarios' in request.endpoint %}bg-[#5D3A3A] text-white{% else %}text-gray-600 hover:bg-gray-300{% endif %}"
-          >
-            <i class="bi bi-people-fill text-lg"></i>
-            <span>Usuarios</span>
+          <a href="{{ url_for('admin.dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors bg-[#5D3A3A] text-white shadow-sm">
+            <i class="bi bi-grid-1x2-fill text-lg"></i>
+            <span>Dashboard</span>
           </a>
         </li>
         <li>
-          <a
-            href="{{ url_for('admin.proveedores_list') }}"
-            class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors {% if 'proveedores' in request.endpoint %}bg-[#5D3A3A] text-white{% else %}text-gray-600 hover:bg-gray-300{% endif %}"
-          >
-            <i class="bi bi-truck text-lg"></i>
-            <span>Proveedores</span>
+          <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-300 transition-colors">
+            <i class="bi bi-graph-up text-lg"></i>
+            <span>Producción</span>
           </a>
         </li>
-
-        <div
-          class="px-4 pt-5 pb-2 text-[11px] font-bold text-gray-400 uppercase tracking-wider"
-        >
-          Inventario
-        </div>
         <li>
-          <a
-            href="{{ url_for('admin.materiales_list') }}"
-            class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors {% if 'materiales' in request.endpoint %}bg-[#5D3A3A] text-white{% else %}text-gray-600 hover:bg-gray-300{% endif %}"
-          >
-            <i class="bi bi-box-seam-fill text-lg"></i>
+          <a href="{{ url_for('admin.materiales_list') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-300 transition-colors">
+            <i class="bi bi-box-seam text-lg"></i>
             <span>Materia Prima</span>
           </a>
         </li>
         <li>
-          <a
-            href="{{ url_for('admin.productos_list') }}"
-            class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors {% if 'productos' in request.endpoint %}bg-[#5D3A3A] text-white{% else %}text-gray-600 hover:bg-gray-300{% endif %}"
-          >
-            <i class="bi bi-tags-fill text-lg"></i>
-            <span>Productos</span>
-          </a>
-        </li>
-
-        <div
-          class="px-4 pt-5 pb-2 text-[11px] font-bold text-gray-400 uppercase tracking-wider"
-        >
-          Ventas
-        </div>
-        <li>
-          <a
-            href="{{ url_for('ventas.index') }}"
-            class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors text-gray-600 hover:bg-gray-300"
-          >
-            <i class="bi bi-cart-fill text-lg"></i><span>Ventas</span>
+          <a href="{{ url_for('admin.productos_list') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-300 transition-colors">
+            <i class="bi bi-box2 text-lg"></i>
+            <span class="leading-tight">Productos<br>Terminados</span>
           </a>
         </li>
         <li>
-          <a
-            href="{{ url_for('pedidos.index') }}"
-            class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors text-gray-600 hover:bg-gray-300"
-          >
-            <i class="bi bi-list text-lg"></i><span>Pedidos</span>
+          <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-300 transition-colors">
+            <i class="bi bi-file-earmark-text text-lg"></i>
+            <span>Fichas Técnicas</span>
           </a>
         </li>
         <li>
-          <a
-            href="{{ url_for('compras.index') }}"
-            class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors text-gray-600 hover:bg-gray-300"
-          >
-            <i class="bi bi-cart-check-fill text-lg"></i><span>Compras</span>
+          <a href="{{ url_for('pedidos.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-300 transition-colors">
+            <i class="bi bi-cart2 text-lg"></i>
+            <span>Pedidos</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('ventas.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-300 transition-colors">
+            <i class="bi bi-cart-check text-lg"></i>
+            <span>Ventas</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('compras.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-300 transition-colors">
+            <i class="bi bi-bag text-lg"></i>
+            <span>Compras</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('admin.clientes_list') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-300 transition-colors">
+            <i class="bi bi-people text-lg"></i>
+            <span>Clientes</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('admin.proveedores_list') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-300 transition-colors">
+            <i class="bi bi-truck text-lg"></i>
+            <span>Proveedores</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('admin.usuarios_list') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-300 transition-colors">
+            <i class="bi bi-person-badge text-lg"></i>
+            <span>Empleados</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('admin.dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-300 transition-colors">
+            <i class="bi bi-gear text-lg"></i>
+            <span>Sistema</span>
           </a>
         </li>
       </ul>
 
-      <div class="border-t border-gray-300 flex-shrink-0">
-        <div class="p-4 border-b border-gray-300 flex items-center gap-3">
-          <div
-            class="w-9 h-9 rounded-full bg-[#5D3A3A] flex items-center justify-center text-white text-sm font-bold flex-shrink-0"
-          >
-            {{ user.get('nombre', 'A')[0].upper() if user and user.get('nombre')
-            else 'A' }}
+      <div class="border-t border-gray-300 flex-shrink-0 bg-[#E2E8F0]">
+        <div class="p-4 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-[#5D3A3A] flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+            A
           </div>
           <div class="flex flex-col overflow-hidden">
-            <span class="text-sm font-bold text-gray-800 truncate"
-              >{{ user.get('nombre', 'Administrador') if user else
-              'Administrador' }}</span
-            >
-            <span class="text-[11px] text-gray-500 truncate">Admin</span>
-            <span class="text-[9px] text-gray-400 mt-0.5"
-              >Último acceso: Hoy</span
-            >
+            <span class="text-sm font-bold text-gray-900 truncate">Administrador</span>
+            <span class="text-[11px] text-gray-600 truncate">Admin</span>
           </div>
         </div>
-        <div class="p-2">
-          <button
-            onclick="logout()"
-            class="w-full flex items-center gap-3 px-4 py-2 text-sm font-medium text-red-500 hover:bg-gray-300 rounded-lg transition-colors"
-          >
-            <i class="bi bi-box-arrow-left text-lg"></i>
+        <div class="px-4 pb-2 text-[10px] text-gray-500">
+            Último acceso: {{ user.ultimo_acceso if user else '6/3/2026, 8:31:37 a.m.' }}
+        </div>
+        <div class="p-2 border-t border-gray-300">
+          <button onclick="logout()" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-gray-800 hover:bg-gray-300 rounded-lg transition-colors">
+            <i class="bi bi-box-arrow-right text-lg"></i>
             <span>Cerrar Sesión</span>
           </button>
         </div>
       </div>
     </aside>
 
-    <main
-      class="flex-1 flex flex-col h-full overflow-hidden bg-white relative w-full"
-    >
-      <header
-        class="px-6 md:px-8 py-6 flex justify-between items-center md:items-start border-b border-gray-200 md:border-none"
-      >
-        <div class="flex items-center gap-4">
-          <button
-            data-drawer-target="logo-sidebar"
-            data-drawer-toggle="logo-sidebar"
-            aria-controls="logo-sidebar"
-            type="button"
-            class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
-          >
-            <span class="sr-only">Abrir menú</span>
-            <i class="bi bi-list text-2xl"></i>
-          </button>
-
-          <div class="flex flex-col">
-            <h1
-              class="text-[24px] md:text-[28px] font-bold text-gray-900 leading-tight"
-            >
-              {% block header_title %}Panel de Control{% endblock %}
+    <main class="flex-1 flex flex-col h-full overflow-hidden bg-white relative w-full">
+      <header class="px-8 py-8 flex justify-between items-start md:border-none">
+        <div class="flex flex-col">
+            <h1 class="text-3xl font-bold text-gray-900 leading-tight">
+                {% block header_title %}Dashboard Administrador{% endblock %}
             </h1>
-            <p class="text-xs md:text-sm text-gray-400 mt-1 hidden md:block">
-              Gestión general del sistema
+            <p class="text-sm text-gray-500 mt-2">
+                {% block header_subtitle %}Bienvenido, Administrador{% endblock %}
             </p>
-          </div>
-        </div>
-
-        <div>
-          <!-- <button
-            class="bg-[#0f4b5b] hover:bg-[#0a3844] text-white px-4 md:px-5 py-2 rounded-md text-xs md:text-sm font-medium transition-colors shadow-sm flex items-center gap-2"
-          >
-            <i class="bi bi-plus-lg"></i>
-            <span class="hidden md:inline">Nuevo Registro</span>
-            <span class="md:hidden">Nuevo</span>
-          </button> -->
-          {% block header_buttons %}{% endblock %}
         </div>
       </header>
 
-      <div class="flex-1 overflow-y-auto px-6 md:px-8 pb-8">
+      <div class="flex-1 overflow-y-auto px-8 pb-10">
         {% block content %}{% endblock %}
       </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
     <script src="{{ url_for('static', filename='scripts/layout_admin.js') }}"></script>
     {% block scripts %}{% endblock %}
   </body>

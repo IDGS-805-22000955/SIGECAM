@@ -1,0 +1,53 @@
+<div id="modal-edit-{{ cliente.id_cliente }}" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-w-2xl max-h-full">
+        <div class="relative bg-white rounded-2xl shadow-xl border border-gray-100">
+
+            <div class="flex items-center justify-between p-6 border-b border-gray-100">
+                <h3 class="text-xl font-bold text-gray-800">Editar Cliente: {{ cliente.nombre_completo }}</h3>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center" data-modal-hide="modal-edit-{{ cliente.id_cliente }}">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+
+            <form action="{{ url_for('admin.cliente_editar', id=cliente.id_cliente) }}" method="POST" class="p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 text-left">
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-bold text-gray-700">Nombre Completo *</label>
+                        <input type="text" name="nombre_completo" value="{{ cliente.nombre_completo }}" required
+                            class="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-xl text-gray-900 focus:ring-2 focus:ring-[#0f4b5b] outline-none">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-bold text-gray-700">Email *</label>
+                        <input type="email" name="email" value="{{ cliente.email }}" required
+                            class="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-xl text-gray-900 focus:ring-2 focus:ring-[#0f4b5b] outline-none">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-bold text-gray-700">Teléfono *</label>
+                        <input type="text" name="telefono" value="{{ cliente.telefono }}" required
+                            class="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-xl text-gray-900 focus:ring-2 focus:ring-[#0f4b5b] outline-none">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-bold text-gray-700">RFC (Datos Fiscales)</label>
+                        <input type="text" name="rfc_datos" value="{{ cliente.rfc_datos or '' }}"
+                            class="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-xl text-gray-900 focus:ring-2 focus:ring-[#0f4b5b] outline-none">
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-4 mt-10 border-t border-gray-100 pt-6">
+                    <button type="button" data-modal-hide="modal-edit-{{ cliente.id_cliente }}"
+                        class="px-6 py-2.5 text-sm font-bold text-gray-500 hover:text-gray-700">
+                        Cancelar
+                    </button>
+                    <button type="submit"
+                        class="px-8 py-2.5 bg-[#0f4b5b] hover:bg-[#0a3844] text-white text-sm font-bold rounded-xl shadow-md transition-all">
+                        Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

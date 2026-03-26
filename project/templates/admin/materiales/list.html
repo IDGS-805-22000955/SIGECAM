@@ -1,55 +1,70 @@
 {% extends "admin/layout_admin.html" %}
-{% block title %}Almacén MP{% endblock %}
-{% block header_title %}Materia Prima{% endblock %}
+
+{% block title %}Catálogo de Materia Prima{% endblock %}
+{% block header_title %}Catálogo de Materia Prima{% endblock %}
+
+{% block header_buttons %}
+<button data-modal-target="modal-create-mp" data-modal-toggle="modal-create-mp"
+        class="bg-[#0f4b5b] hover:bg-[#0a3844] text-white px-5 py-2 rounded-md text-sm font-medium flex items-center gap-2">
+    <i class="bi bi-plus-lg"></i>
+    <span>Agregar Materia Prima</span>
+</button>
+{% endblock %}
 
 {% block content %}
-<div class="section-header">
-    <div><p style="color: var(--text-muted);">Inventario de insumos para producción</p></div>
-    <a href="{{ url_for('admin.materiales_create') }}" class="btn-primary">
-        <i class="bi bi-plus-lg"></i> Nuevo Material
-    </a>
+{% include "admin/materiales/create.html" %}
+
+<div class="relative mb-6">
+    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+        <i class="bi bi-search"></i>
+    </span>
+    <input type="text" class="w-full bg-slate-100 border-none rounded-lg py-3 pl-10 focus:ring-2 focus:ring-[#0f4b5b]"
+           placeholder="Buscar materia prima...">
 </div>
 
-<div class="table-container">
-    <table class="modern-table">
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <table class="w-full text-left border-collapse">
         <thead>
-            <tr>
-                <th width="50">Img</th>
-                <th>Código</th>
-                <th>Material</th>
-                <th>Proveedor</th>
-                <th>Existencia</th>
-                <th>Costo</th>
-                <th>Acciones</th>
-            </tr>
+        <tr class="bg-gray-50 text-[11px] uppercase tracking-wider text-gray-500 border-b">
+            <th class="px-6 py-4 font-bold">Nombre</th>
+            <th class="px-6 py-4 font-bold">Unidad</th>
+            <th class="px-6 py-4 font-bold">Stock Actual</th>
+            <th class="px-6 py-4 font-bold">Stock Mínimo</th>
+            <th class="px-6 py-4 font-bold">% Merma</th>
+            <th class="px-6 py-4 font-bold">Costo Unitario</th>
+            <th class="px-6 py-4 font-bold text-center">Acciones</th>
+        </tr>
         </thead>
-        <tbody>
-            {% for m in materiales %}
-            <tr>
-                <td>
-                    {% if m.foto_path %}
-                        <img src="{{ url_for('static', filename='uploads/materias_primas/' + m.foto_path) }}"
-                             style="width: 40px; height: 40px; border-radius: 6px; object-fit: cover;">
-                    {% else %}
-                        <div style="width: 40px; height: 40px; background: var(--pale-slate); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--grey-olive);"><i class="bi bi-box"></i></div>
-                    {% endif %}
-                </td>
-                <td><span style="font-family: monospace; font-weight: 600; color: var(--espresso);">{{ m.codigo_interno }}</span></td>
-                <td>{{ m.nombre }}</td>
-                <td>{{ m.proveedor or '-' }}</td>
-                <td>
-                    <span style="font-weight: 700; color: {% if m.cantidad_stock < 10 %}#ef4444{% else %}var(--success){% endif %};">
-                        {{ m.cantidad_stock }} <span style="font-size: 0.8em; font-weight: 400; color: var(--text-muted);">{{ m.unidad_medida }}</span>
-                    </span>
-                </td>
-                <td>${{ m.costo_unitario }}</td>
-                <td>
-                    <button class="action-btn"><i class="bi bi-pencil"></i></button>
-                </td>
-            </tr>
-            {% else %}
-            <tr><td colspan="7" style="text-align: center; padding: 2rem;">No hay materiales registrados.</td></tr>
-            {% endfor %}
+        <tbody class="divide-y divide-gray-100">
+        {% for mp in materiales %}
+        <tr class="hover:bg-gray-50 transition-colors text-sm text-gray-700">
+            <td class="px-6 py-4 font-bold">{{ mp.nombre }}</td>
+            <td class="px-6 py-4 text-gray-500">{{ mp.unidad_medida }}</td>
+            <td class="px-6 py-4">
+                <span class="px-2.5 py-1 rounded-md {% if mp.stock_actual <= mp.stock_minimo %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %} font-bold">
+                    {{ mp.stock_actual }}
+                </span>
+            </td>
+            <td class="px-6 py-4">{{ mp.stock_minimo }}</td>
+            <td class="px-6 py-4">{{ mp.porcentaje_merma }}%</td>
+            <td class="px-6 py-4 font-bold">${{ mp.costo_unitario }}</td>
+            <td class="px-6 py-4 text-center">
+                <div class="flex justify-center gap-3">
+                    <button data-modal-target="modal-edit-mp-{{ mp.id_mp }}"
+                            data-modal-toggle="modal-edit-mp-{{ mp.id_mp }}" class="text-blue-600 hover:text-blue-800">
+                        <i class="bi bi-pencil-square text-lg"></i>
+                    </button>
+                    <button data-modal-target="modal-delete-mp-{{ mp.id_mp }}"
+                            data-modal-toggle="modal-delete-mp-{{ mp.id_mp }}" class="text-red-500 hover:text-red-700">
+                        <i class="bi bi-trash text-lg"></i>
+                    </button>
+                </div>
+            </td>
+        </tr>
+        {% include "admin/materiales/editMaterial.html" %}
+        {% include "admin/materiales/deleteMaterial.html" %}
+
+        {% endfor %}
         </tbody>
     </table>
 </div>

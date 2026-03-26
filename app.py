@@ -2,7 +2,7 @@ from flask import Flask
 from config import config
 from project.extensions import bcrypt, db, migrate
 
-from project.admin.routes import admin_bp
+from project.modules.admin.routes import admin_bp
 from project.auth.routes import auth_bp
 from project.user.routes import user_bp
 from project.modules.pedidos import pedidos_bp
