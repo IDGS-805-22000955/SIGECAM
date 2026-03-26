@@ -1,5 +1,5 @@
 from flask import render_template
-from project.modules.pedidos import pedidos_bp # Asegúrate de que este blueprint exista
+from project.modules.pedidos import pedidos_bp
 from project.services.pedido_service import PedidoService
 from project.decorators import admin_required
 

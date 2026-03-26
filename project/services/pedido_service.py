@@ -5,16 +5,15 @@ class PedidoService:
     
     @staticmethod
     def obtener_datos_dashboard():
-        # 1. Obtener conteos de métricas
+        # Obtener conteos de métricas
         conteos = PedidoRepository.get_conteos_por_estado()
         
-        # En tu modelo el estado es 'Terminado', pero en la UI lo llamas 'Completados'
         pendientes = conteos.get('Pendiente', 0)
         en_produccion = conteos.get('En Producción', 0)
         completados = conteos.get('Terminado', 0) + conteos.get('Entregado', 0) 
         total_pedidos = PedidoRepository.get_total_pedidos()
 
-        # 2. Obtener el último pedido para mostrar el detalle
+        # Obtener el último pedido para mostrar el detalle
         ultimo_pedido_info = PedidoRepository.get_ultimo_pedido()
         
         pedido_actual = None
@@ -40,8 +39,7 @@ class PedidoService:
                     'foto': mod_obj.foto_modelo
                 })
 
-            # Tu modelo no tiene 'fecha_entrega', la simulamos agregando 7 días a la fecha del pedido
-            # (Puedes cambiar esto luego si agregas el campo a la base de datos)
+            #  'fecha_entrega', la simulamos agregando 7 días a la fecha del pedido
             fecha_entrega_estimada = p_obj.fecha_pedido + timedelta(days=7)
 
             pedido_actual = {

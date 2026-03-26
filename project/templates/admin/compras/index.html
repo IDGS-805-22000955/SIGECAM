@@ -1,18 +1,15 @@
 {% extends "admin/layout_admin.html" %} {% block title %}Gestión de Compras{%
 endblock %} {% block header_title %}Gestión de Compras{% endblock %} {% block
 header_buttons %}
-<button
+<a
+  href="{{ url_for('compras.agregar') }}"
   class="bg-[#0f4b5b] hover:bg-[#0a3844] text-white px-4 md:px-5 py-2 rounded-md text-xs md:text-sm font-medium transition-colors shadow-sm flex items-center gap-2"
 >
   <i class="bi bi-plus-lg"></i>
   Nueva Compra
-</button>
+</a>
 {% endblock %} {% block content %}
-<div class="max-w-7xl mx-auto bg-white rounded-xl p-0 lg:p-0">
-  <p class="text-sm text-gray-500 mb-6 mt-[-1rem]">
-    Control de compras de materia prima
-  </p>
-
+<div class="max-w-7xl mx-auto rounded-xl p-0">
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
     <div
       class="bg-slate-200 rounded-xl p-4 flex justify-between items-center shadow-sm"

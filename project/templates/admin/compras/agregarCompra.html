@@ -1,0 +1,130 @@
+{% extends "admin/layout_admin.html" %} 
+
+{% block title %}Registrar Nueva Compra{% endblock %} 
+{% block header_title %}Registrar Nueva Compra{% endblock %} 
+
+{% block header_buttons %}
+<a
+  href="{{ url_for('compras.cancelar_compra') }}"
+  class="bg-red-900 hover:bg-red-800 text-white px-4 md:px-5 py-2 rounded-md text-xs md:text-sm font-medium transition-colors shadow-sm flex items-center gap-2"
+>
+  <i class="bi bi-arrow-left"></i> Regresar y Cancelar
+</a>
+{% endblock %} 
+
+{% block content %}
+<div class="max-w-5xl mx-auto">
+  <form method="POST">
+    
+    <div class="bg-slate-200 rounded-xl p-6 shadow-sm mb-6">
+      <h2 class="text-sm font-bold text-gray-900 mb-4 border-b border-gray-300 pb-2">
+        <i class="bi bi-info-circle mr-2"></i>Información General
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label class="block text-[11px] text-gray-500 font-bold mb-1 uppercase tracking-wide">Proveedor</label>
+          <select name="proveedor_id" class="w-full bg-white border-none text-gray-900 text-sm focus:ring-2 focus:ring-[#0f4b5b] rounded-lg p-2.5 shadow-sm">
+            <option value="" disabled {% if not compra_actual.proveedor_id %}selected{% endif %}>Selecciona un proveedor...</option>
+            {% for prov in proveedores %}
+              <option value="{{ prov.id }}" {% if compra_actual.proveedor_id == prov.id %}selected{% endif %}>
+                {{ prov.razon_social }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-[11px] text-gray-500 font-bold mb-1 uppercase tracking-wide">Fecha de Compra</label>
+          <input type="date" name="fecha" value="{{ compra_actual.fecha }}" class="w-full bg-white border-none text-gray-900 text-sm focus:ring-2 focus:ring-[#0f4b5b] rounded-lg p-2.5 shadow-sm"/>
+        </div>
+
+        <div class="md:col-span-2">
+          <label class="block text-[11px] text-gray-500 font-bold mb-1 uppercase tracking-wide">Notas</label>
+          <textarea name="notas" rows="2" class="w-full bg-white border-none text-gray-900 text-sm focus:ring-2 focus:ring-[#0f4b5b] rounded-lg p-2.5 shadow-sm">{{ compra_actual.notas }}</textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-slate-200 rounded-xl p-6 shadow-sm mb-6">
+      <h2 class="text-sm font-bold text-gray-900 mb-4 border-b border-gray-300 pb-2">
+        <i class="bi bi-box-seam mr-2"></i>Añadir Material
+      </h2>
+
+      <div class="flex flex-col md:flex-row gap-3 items-end bg-white p-4 rounded-lg shadow-sm mb-6 border border-gray-200">
+        <div class="w-full md:w-[45%]">
+          <label class="block text-[10px] text-gray-500 font-bold mb-1 uppercase tracking-wide">Material</label>
+          <select name="nuevo_material_id" class="w-full bg-slate-50 border border-gray-200 text-gray-900 text-sm rounded-md p-2">
+            <option value="" disabled selected>Seleccione material...</option>
+            {% for id, nombre in catalogo_materiales.items() %}
+              <option value="{{ id }}">{{ nombre }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="w-full md:w-[20%]">
+          <label class="block text-[10px] text-gray-500 font-bold mb-1 uppercase tracking-wide">Cantidad</label>
+          <input type="number" name="nueva_cantidad" step="0.01" class="w-full bg-slate-50 border border-gray-200 text-gray-900 text-sm rounded-md p-2">
+        </div>
+        <div class="w-full md:w-[20%]">
+          <label class="block text-[10px] text-gray-500 font-bold mb-1 uppercase tracking-wide">Costo Unitario</label>
+          <input type="number" name="nuevo_precio" step="0.01" class="w-full bg-slate-50 border border-gray-200 text-gray-900 text-sm rounded-md p-2">
+        </div>
+        <div class="w-full md:w-[15%]">
+          <button type="submit" formaction="{{ url_for('compras.agregar_material') }}" class="w-full bg-white text-[#0f4b5b] hover:bg-gray-50 text-xs font-bold px-3 py-2.5 rounded-md border border-gray-200 transition-colors shadow-sm">
+            <i class="bi bi-plus-lg"></i> Agregar
+          </button>
+        </div>
+      </div>
+
+      {% if lista_materiales %}
+      <div class="space-y-2">
+        {% for material in lista_materiales %}
+        <div class="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm border border-gray-100">
+          <div>
+            <p class="text-sm font-bold text-gray-900">{{ material.nombre }}</p>
+            <p class="text-xs text-gray-500 font-medium">Cant: {{ material.cantidad }} &times; ${{ "%.2f"|format(material.precio) }}</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <p class="text-sm font-bold text-[#0f4b5b]">${{ "%.2f"|format(material.subtotal) }}</p>
+            
+            <button type="submit" formaction="{{ url_for('compras.eliminar_material', index=loop.index0) }}" class="text-red-500 hover:text-red-700 bg-red-50 hover:bg-red-100 p-2 rounded-md transition-colors" title="Quitar">
+              <i class="bi bi-trash"></i>
+            </button>
+
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+        <p class="text-sm text-gray-500 text-center py-4 bg-white rounded-lg border border-dashed border-gray-300">
+          No hay materiales agregados a esta compra todavía.
+        </p>
+      {% endif %}
+
+      <div class="mt-6 flex justify-end">
+        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 w-full md:w-1/3">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-sm font-medium text-gray-500">Artículos en lista:</span>
+            <span class="text-sm font-bold text-gray-900">{{ total_articulos }}</span>
+          </div>
+          <div class="flex justify-between items-center border-t border-gray-200 mt-2 pt-2">
+            <span class="text-base font-bold text-gray-900 uppercase">Total:</span>
+            <span class="text-2xl font-black text-[#0f4b5b]">${{ "%.2f"|format(gran_total) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-3 mb-10">
+      <a href="{{ url_for('compras.cancelar_compra') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-2.5 rounded-lg text-sm font-bold transition-colors shadow-sm">
+        Cancelar
+      </a>
+      <button type="submit" formaction="{{ url_for('compras.guardar_compra') }}" class="bg-[#0f4b5b] hover:bg-[#0a3844] text-white px-6 py-2.5 rounded-lg text-sm font-bold transition-colors shadow-sm flex items-center gap-2">
+        <i class="bi bi-save"></i>
+        Finalizar Compra
+      </button>
+    </div>
+
+  </form>
+</div>
+{% endblock %}
